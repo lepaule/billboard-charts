@@ -288,7 +288,8 @@ class ChartData:
                 def getMinistatsCellValue(fieldName, ifNoValue=None):
                     try:
                         for ministat in entrySoup.select(_MINISTATS_CELL):
-                            heading = ministat.select_one(_MINISTATS_CELL_HEADING)
+                            heading = ministat.select_one(
+                                _MINISTATS_CELL_HEADING)
                             headingText = heading.string.strip().lower()
                             if headingText == fieldName:
                                 value = ministat.text.split(u"\xa0")[0].strip()
@@ -342,7 +343,8 @@ class ChartData:
                 raise BillboardParseException(message)
 
             try:
-                artist = getEntryAttr(3, "#title-of-a-story + span.c-label") or ""
+                artist = getEntryAttr(
+                    3, "#title-of-a-story + span.c-label") or ""
             except:
                 message = "Failed to parse artist"
                 raise BillboardParseException(message)
@@ -362,7 +364,8 @@ class ChartData:
 
             def getMeta(attribute, which_li, ifNoValue=None):
                 try:
-                    selected = entrySoup.select_one("ul").select("li")[which_li]
+                    selected = entrySoup.select_one(
+                        "ul").select("li")[which_li]
 
                     if not selected:
                         return ifNoValue
@@ -404,7 +407,8 @@ class ChartData:
             self.previousYear = (
                 str(current_year - 1) if current_year > min_year else None
             )
-            self.nextYear = str(current_year + 1) if current_year < max_year else None
+            self.nextYear = str(
+                current_year + 1) if current_year < max_year else None
         else:
             # Warn the user about having requested an unsupported year.
             msg = """
@@ -476,7 +480,8 @@ class ChartData:
                     self.name,
                 )
         else:
-            url = "https://www.billboard.com/charts/%s/%s" % (self.name, self.date)
+            url = "https://www.billboard.com/charts/%s/%s" % (
+                self.name, self.date)
 
         session = _get_session_with_retries(max_retries=self._max_retries)
         req = session.get(url, timeout=self._timeout)
